@@ -1,69 +1,53 @@
 #include <bits/stdc++.h>
 using namespace std;
 void print(vector<int> list);
-void print(int max_v, set<int> list[]);
-queue<int> q;
-vector<int> bfs;
-void bfsTraversal(set<int> vertex, int visited[])
+void print(int max_v, vector<int> list[]);
+void bfsTraversal(int starting_node, vector<int> graph[], int visited[], vector<int> &result)
 {
-    if (!q.empty())
+    queue<int> q;
+    q.push(starting_node);
+    while (!q.empty())
     {
+        vector<int> bfs;
         int node = q.front();
         q.pop();
-        bfs.push_back(node);
-    }
-    for (int it : vertex)
-    {
-        if (!visited[it])
+        result.push_back(node);
+        for (int it : graph[node])
         {
-            visited[it] = 1;
-            q.push(it);
+            if (!visited[it])
+            {
+                visited[it] = 1;
+                q.push(it);
+            }
         }
     }
 }
-vector<int> bfsTraversalWrapper(int max_k, set<int> adjList[])
+vector<int> bfsTraversalWrapper(int max_k, vector<int> adjList[])
 {
     int visited[max_k];
     // fills the array with zeros in an efficient way
     memset(visited, 0, max_k * sizeof(int));
+    // visited[0] = 1;
+    vector<int> bfs;
     for (int i = 0; i < max_k; i++)
     {
-        if (adjList[i].size() > 0)
+        if (!visited[i])
         {
             visited[i] = 1;
-            q.push(i);
-            break;
+            bfsTraversal(i, adjList, visited, bfs);
         }
-    }
-    for (int i = 0; i < max_k; i++)
-    {
-        if (adjList[i].size() > 0)
-        {
-            bfsTraversal(adjList[i], visited);
-        }
-        else
-        {
-            visited[i] = 1;
-            bfs.push_back(i);
-        }
-    }
-    while (!q.empty())
-    {
-        int node = q.front();
-        q.pop();
-        bfs.push_back(node);
     }
     return bfs;
 }
-void addEdge(set<int> adjList[], int u, int v)
+void addEdge(vector<int> adjList[], int u, int v)
 {
-    adjList[u].insert(v);
-    adjList[v].insert(u);
+    adjList[u].push_back(v);
+    adjList[v].push_back(u);
 }
 
 int main()
 {
-    set<int> adjList[6];
+    vector<int> adjList[6];
     // ! not connected at start
     // addEdge(adjList, 1, 2);
     // addEdge(adjList, 1, 3);
@@ -97,7 +81,6 @@ int main()
     addEdge(adjList, 1, 2);
     addEdge(adjList, 1, 3);
     addEdge(adjList, 4, 5);
-    addEdge(adjList, 5, 4);
     print(6, adjList);
     vector<int> bfs = bfsTraversalWrapper(6, adjList);
     print(bfs);
@@ -112,13 +95,13 @@ void print(vector<int> list)
     }
     cout << endl;
 }
-void print(int max_v, set<int> list[])
+void print(int max_v, vector<int> list[])
 {
     cout << "printing adjustency list" << endl;
     for (int i = 0; i < max_v; i++)
     {
         cout << i << ": ";
-        for (set<int>::iterator it = list[i].begin(); it != list[i].end(); it++)
+        for (vector<int>::iterator it = list[i].begin(); it != list[i].end(); it++)
         {
             cout << *it << " ";
         }

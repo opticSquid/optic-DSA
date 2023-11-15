@@ -79,7 +79,7 @@ void addEdge(set<int> adjList[], int u, int v)
 }
 void print(vector<int> list)
 {
-    cout << "printing BFS traversal" << endl;
+    cout << "printing DFS traversal" << endl;
     for (auto it : list)
     {
         cout << it << " ";

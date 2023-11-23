@@ -8,7 +8,6 @@ void bfsTraversal(int starting_node, vector<int> graph[], int visited[], vector<
     q.push(starting_node);
     while (!q.empty())
     {
-        vector<int> bfs;
         int node = q.front();
         q.pop();
         result.push_back(node);

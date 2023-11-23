@@ -7,50 +7,56 @@ vector<vector<int>> floodFill(vector<vector<int>> &image, int sr, int sc, int co
     int visited[m][n];
     fill(visited[0], visited[m], 0);
     vector<vector<int>> dupImage(image);
-    for (int i = sr; i < m; i++)
+    queue<pair<int, int>> q;
+    int startingColor = image[sr][sc];
+    q.push({sr, sc});
+    while (!q.empty())
     {
-        for (int j = sc; j < n; j++)
+        pair<int, int> node = q.front();
+        // for a vertex which is connnected to 2 nodes and has been visited in the process
+        if (visited[node.first][node.second] == 1)
         {
-            if (image[i][j] == 0)
+            q.pop();
+            continue;
+        }
+        visited[node.first][node.second] = 1;
+        dupImage[node.first][node.second] = color;
+        q.pop();
+        // top
+        // check the confine first
+        if (node.first - 1 >= 0)
+        {
+            if (image[node.first - 1][node.second] == startingColor && !visited[node.first - 1][node.second])
             {
-                continue;
+                q.push({node.first - 1, node.second});
             }
-            else
+        }
+        // right
+        // check the confine first
+        if (node.second + 1 < n)
+        {
+            if (image[node.first][node.second + 1] == startingColor && !visited[node.first][node.second + 1])
             {
-                visited[i][j] = 1;
-                queue<pair<int, int>> q;
-                q.push({i, j});
-                while (!q.empty())
-                {
-                    pair<int, int> node = q.front();
-                    dupImage[node.first][node.second] = color;
-                    q.pop();
-                    // trying to confine the searh to inside the matrix
-                    if (node.first - 1 >= 0 && node.first + 1 < m && node.second - 1 >= 0 && node.second + 1 < m)
-                    {
+                q.push({node.first, node.second + 1});
+            }
+        }
+        // bottom
+        // check the confine first
+        if (node.first + 1 < m)
+        {
+            if (image[node.first + 1][node.second] == startingColor && !visited[node.first + 1][node.second])
+            {
+                q.push({node.first + 1, node.second});
+            }
+        }
 
-                        // top
-                        if (image[node.first - 1][node.second] == 1 && !visited[node.first - 1][node.second])
-                        {
-                            q.push({node.first - 1, node.second});
-                        }
-                        // right
-                        if (image[node.first][node.second + 1] == 1 && !visited[node.first][node.second + 1])
-                        {
-                            q.push({node.first, node.second + 1});
-                        }
-                        // bottom
-                        if (image[node.first + 1][node.second] == 1 && !visited[node.first + 1][node.second])
-                        {
-                            q.push({node.first + 1, node.second});
-                        }
-                        // left
-                        if (image[node.first][node.second - 1] == 1 && !visited[node.first][node.second - 1])
-                        {
-                            q.push({node.first, node.second - 1});
-                        }
-                    }
-                }
+        // left
+        // check the confine first
+        if (node.second - 1 >= 0)
+        {
+            if (image[node.first][node.second - 1] == startingColor && !visited[node.first][node.second - 1])
+            {
+                q.push({node.first, node.second - 1});
             }
         }
     }
@@ -59,21 +65,24 @@ vector<vector<int>> floodFill(vector<vector<int>> &image, int sr, int sc, int co
 int main()
 {
     int m, n, sr, sc, color;
-    ;
-    cin >> m >> n;
-    vector<vector<int>> image(m, vector(n, 0));
-    for (int i = 0; i < m; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            int x;
-            cin >> x;
-            image[i][j] = x;
-        }
-    }
+    // cin >> m >> n;
+    // vector<vector<int>> image(m, vector(n, 0));
+    // for (int i = 0; i < m; i++)
+    // {
+    //     for (int j = 0; j < n; j++)
+    //     {
+    //         int x;
+    //         cin >> x;
+    //         image[i][j] = x;
+    //     }
+    // }
     // original image
-    print(image);
-    cin >> sr >> sc >> color;
+    m = 4, n = 5, sr = 0, sc = 0, color = 3;
+    vector<vector<int>> image = {{0, 0, 1, 0, 0},
+                                 {0, 1, 1, 0, 1},
+                                 {0, 1, 1, 1, 1},
+                                 {1, 0, 1, 0, 0}};
+    // cin >> sr >> sc >> color;
     vector<vector<int>> floodFilledImage;
     floodFilledImage = floodFill(image, sr, sc, color);
     print(floodFilledImage);

@@ -75,6 +75,7 @@ public:
 int main()
 {
     vector<vector<char>> mat{{'X', 'O', 'X', 'O', 'X', 'O'}, {'O', 'X', 'O', 'X', 'O', 'X'}, {'X', 'O', 'X', 'O', 'X', 'O'}, {'O', 'X', 'O', 'X', 'O', 'X'}};
+    // vector<vector<char>> mat{{'X', 'X', 'X', 'X'}, {'O', 'X', 'O', 'X'}, {'X', 'O', 'O', 'X'}, {'X', 'X', 'X', 'X'}};
     cout << "original" << endl;
     print(mat);
     SurroundedRegions ob;

@@ -1,5 +1,5 @@
 /**
- * Find shortest distance source and each node in an undirected graph
+ * Find shortest distance from source to each node in an undirected graph
  * in which all edges have unit weights
  */
 #include <bits/stdc++.h>

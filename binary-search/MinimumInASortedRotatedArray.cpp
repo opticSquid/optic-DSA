@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-int minimumInRotatedSortedArray(vector<int> &arr)
+int findNumberOfRotations(vector<int> &arr)
 {
     int n = arr.size(), minimum = INT_MAX;
     int l = 0, r = n - 1;
@@ -46,6 +46,6 @@ int main()
         cin >> t;
         arr.push_back(t);
     }
-    cout << minimumInRotatedSortedArray(arr) << endl;
+    cout << findNumberOfRotations(arr) << endl;
     return 0;
 }

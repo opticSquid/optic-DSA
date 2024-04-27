@@ -84,6 +84,7 @@ public:
                 l2 = b[mid2 - 1];
 
             // diagonal check
+            // if this check passes means array is sorted
             if (l1 <= r2 && l2 <= r1)
             {
                 if (n % 2 == 1)

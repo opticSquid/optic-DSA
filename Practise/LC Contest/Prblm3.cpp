@@ -36,6 +36,8 @@ public:
                     // create a new color group with ball in it
                     colors.insert({it[1], {it[0]}});
                 }
+                // update ball -> color
+                balls[it[0]] = it[1];
             }
             // ball new, color repeat
             else if (balls.find(it[0]) == balls.end() && colors.find(it[1]) != colors.end())
@@ -58,8 +60,16 @@ public:
 };
 int main()
 {
-    int limit = 4;
-    vector<vector<int>> q = {{0, 1}, {1, 2}, {2, 2}, {3, 4}, {4, 5}};
+    int limit, n;
+    cin >> limit >> n;
+    vector<vector<int>> q(n, vector<int>(2));
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < 2; j++)
+        {
+            cin >> q[i][j];
+        }
+    }
     Solution obj;
     vector<int> res = obj.queryResults(limit, q);
     for (int i : res)

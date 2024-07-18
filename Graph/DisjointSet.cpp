@@ -45,7 +45,8 @@ int find(int A[], int X)
   if (A[X] == X)
     return X;
   // otherwise, find this node's parent
-  return find(A, A[X]);
+  // and also do path compression
+  return A[X] = find(A, A[X]);
 }
 
 void unionSet(int A[], int X, int Z)

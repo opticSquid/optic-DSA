@@ -6,44 +6,36 @@ public:
     int candy(vector<int> &ratings)
     {
         int n = ratings.size();
-        vector<int> candies(n);
-        // cosider left neighs
-        for (int i = 0; i < n; i++)
+        int sum = 1, i = 1;
+        while (i < n)
         {
-            if (i == 0)
+            if (ratings[i] == ratings[i - 1])
             {
-                candies[i] = 1;
+                sum++;
+                i++;
                 continue;
             }
-            else if (ratings[i] > ratings[i - 1])
+            int up = 1;
+            // +ve slope
+            while (i < n && ratings[i] > ratings[i - 1])
             {
-                // increase candy by +1 of previous
-                candies[i] = candies[i - 1] + 1;
+                up++;
+                sum += up;
+                i++;
             }
-            else if (ratings[i] <= ratings[i - 1])
+            // -ve slope
+            int down = 1;
+            // see the changed order of the instructions compared to +ve slope
+            while (i < n && ratings[i] < ratings[i - 1])
             {
-                candies[i] = 1;
+                sum += down;
+                down++;
+                i++;
             }
-        }
-        int sum = 0;
-        // cosider right neighs
-        for (int i = n - 1; i >= 0; i--)
-        {
-            if (i == n - 1)
+            if (down > up)
             {
-                candies[i] = max(candies[i], 1);
-                sum += candies[i];
-                continue;
+                sum += down - up;
             }
-            else if (ratings[i] > ratings[i + 1])
-            {
-                candies[i] = max(candies[i], candies[i + 1] + 1);
-            }
-            else if (ratings[i] <= ratings[i + 1])
-            {
-                candies[i] = max(candies[i], 1);
-            }
-            sum += candies[i];
         }
         return sum;
     }

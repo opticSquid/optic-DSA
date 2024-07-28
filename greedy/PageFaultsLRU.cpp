@@ -1,95 +1,50 @@
 #include <bits/stdc++.h>
 using namespace std;
-class LRU
-{
-private:
-    vector<int> store;
-    int cntr;
-    int findIndex(int x)
-    {
-        for (int i = 0; i < store.size(); i++)
-        {
-            if (store[i] == x)
-            {
-                return i;
-            }
-        }
-        return -1;
-    }
-    void removeLast()
-    {
-        for (int i = 0; i < store.size() - 1; i++)
-        {
-            store[i] = store[i + 1];
-        }
-        cntr--;
-    }
-
-public:
-    LRU(int capacity)
-    {
-        store.resize(capacity, INT_MIN);
-        cntr = 0;
-    }
-    bool find(int x)
-    {
-        for (int i = 0; i < store.size(); i++)
-        {
-            if (store[i] == x)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-    /**
-     *if capacity is left
-     * Item is pushed to the front
-     * if capacity not left
-     * Last item is removed and then new item is added
-     */
-    void insert(int x)
-    {
-        if (cntr < store.size())
-        {
-            store[cntr] = x;
-            cntr++;
-        }
-        else
-        {
-            removeLast();
-            store[cntr] = x;
-            cntr++;
-        }
-    }
-    void update(int x)
-    {
-        int idx = findIndex(x);
-        for (int i = idx; i < store.size() - 1; i++)
-        {
-            store[i] = store[i + 1];
-        }
-        store[cntr - 1] = x;
-    }
-};
 class Solution
 {
 public:
     int pageFaults(int N, int C, int pages[])
     {
+        // this represents the memory
+        unordered_set<int> s;
+        unordered_map<int, int> indexes;
         int flts = 0;
-        LRU q(C);
         for (int i = 0; i < N; i++)
         {
-            if (!q.find(pages[i]))
+            // memory capacity left
+            if (s.size() < C)
             {
-                q.insert(pages[i]);
-                flts++;
+                // check if item is already in the memory
+                if (s.find(pages[i]) == s.end())
+                {
+                    // if not store the item in the memory
+                    s.insert(pages[i]);
+                    flts++;
+                }
             }
+            // memory is full
             else
             {
-                q.update(pages[i]);
+                // check if item is already in the memory
+                if (s.find(pages[i]) == s.end())
+                {
+                    // if not delete the lest recently used item from memory the create space
+                    int lru = INT_MAX, val;
+                    for (int it : s)
+                    {
+                        if (indexes[it] < lru)
+                        {
+                            lru = indexes[it];
+                            val = it;
+                        }
+                    }
+                    s.erase(val);
+                    s.insert(pages[i]);
+                    flts++;
+                }
             }
+            // store the index of item in map
+            indexes[pages[i]] = i;
         }
         return flts;
     }

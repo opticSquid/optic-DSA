@@ -15,13 +15,6 @@ int main()
 }
 void mergeSort(int arr[], int low, int high)
 {
-    // cout << "dividing..." << endl;
-    // cout << "[ ";
-    // for (int i = low; i <= high; i++)
-    // {
-    //     cout << arr[i] << ", ";
-    // }
-    // cout << "]" << endl;
     if (low >= high)
     {
         // when there is a single element
@@ -37,20 +30,6 @@ void mergeSort(int arr[], int low, int high)
 }
 void merge(int arr[], int low, int mid, int high)
 {
-    // cout << "left half:" << endl;
-    // cout << "[ ";
-    // for (int i = low; i <= mid; i++)
-    // {
-    //     cout << arr[i] << ", ";
-    // }
-    // cout << "]" << endl;
-    // cout << "right half:" << endl;
-    // cout << "[ ";
-    // for (int i = mid + 1; i <= high; i++)
-    // {
-    //     cout << arr[i] << ", ";
-    // }
-    // cout << "]" << endl;
     int tmp[high];
     int tmp_cursor = 0;
     int left = low;
@@ -69,7 +48,7 @@ void merge(int arr[], int low, int mid, int high)
         }
         tmp_cursor++;
     }
-    // for the left over elements after comparison
+    // for the left over elements of the low -> high range after comparison
     while (left <= mid)
     {
         tmp[tmp_cursor] = arr[left];
@@ -82,17 +61,10 @@ void merge(int arr[], int low, int mid, int high)
         right++;
         tmp_cursor++;
     }
-    // cout << "merged..." << endl;
-    // cout << "[ ";
-    // for (int i = 0; i < tmp_cursor; i++)
-    // {
-    //     cout << tmp[i] << ", ";
-    // }
-    // cout << "]" << endl;
-
-    // returning all the elements of tmp to arr
+    // this changes the items in the original array with the sorted items in tmp array
     for (int i = low; i <= high; i++)
     {
+        // i - low calculates the insert position in the oritginal array
         arr[i] = tmp[i - low];
     }
 }

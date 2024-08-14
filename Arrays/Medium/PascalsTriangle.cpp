@@ -3,25 +3,15 @@ using namespace std;
 class Solution
 {
 private:
-    unordered_map<int, int> mp;
-    int factorial(int n)
+    int short_nCr(int n, int r)
     {
-        if (mp.find(n) != mp.end())
+        long long res = 1;
+        for (int i = 0; i < r; i++)
         {
-            return mp[n];
+            res *= n - i;
+            res /= i + 1;
         }
-        else
-        {
-            if (n <= 0)
-            {
-                mp.insert({n, 1});
-                return 1;
-            }
-            int res = n;
-            res *= factorial(n - 1);
-            mp.insert({n, res});
-            return res;
-        }
+        return res;
     }
 
 public:
@@ -33,7 +23,7 @@ public:
             vector<int> row;
             for (int c = 1; c <= r; c++)
             {
-                row.push_back(factorial(r - 1) / (factorial(c - 1) * factorial((r - 1) - (c - 1))));
+                row.push_back(short_nCr(r - 1, c - 1));
             }
             ans.push_back(row);
         }

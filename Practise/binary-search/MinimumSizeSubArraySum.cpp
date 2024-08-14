@@ -2,25 +2,47 @@
 using namespace std;
 class Solution
 {
-public:
-    int minSubArrayLen(int target, vector<int> &nums)
+private:
+    bool slidingWindow(vector<int> &nums, int target, int size)
     {
         int n = nums.size();
-        int minlen = INT_MAX;
         int i = 0, j = 0;
         int sum = 0;
+        int mx = INT_MIN;
         while (j < n)
         {
             sum += nums[j];
-            while (sum >= target)
+            if (j - i + 1 == size)
             {
+                mx = max(mx, sum);
                 sum -= nums[i];
-                minlen = min(minlen, j - i + 1);
                 i++;
             }
             j++;
         }
-        return minlen == INT_MAX ? 0 : minlen;
+        return mx >= target;
+    }
+
+public:
+    int minSubArrayLen(int target, vector<int> &nums)
+    {
+        int n = nums.size();
+        int minLen = 0;
+        int l = 0, r = n - 1;
+        while (l <= r)
+        {
+            int mid = l + (r - l) / 2;
+            if (slidingWindow(nums, target, mid))
+            {
+                r = mid - 1;
+                minLen = mid;
+            }
+            else
+            {
+                l = mid + 1;
+            }
+        }
+        return minLen;
     }
 };
 int main()

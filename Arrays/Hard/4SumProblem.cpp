@@ -5,31 +5,52 @@ class Solution
 public:
     vector<vector<int>> fourSum(vector<int> &nums, int target)
     {
-        set<vector<int>> ans;
+        vector<vector<int>> ans;
         int n = nums.size();
+        sort(nums.begin(), nums.end());
         for (int i = 0; i < n; i++)
         {
+            // skipping duplicates and skipping first element
+            if (i > 0 && nums[i] == nums[i - 1])
+            {
+                continue;
+            }
             for (int j = i + 1; j < n; j++)
             {
-                set<long long> hashset;
-                for (int k = j + 1; k < n; k++)
+                // skipping duplicates
+                if (j > i + 1 && nums[j] == nums[j - 1])
                 {
-                    long long sum = nums[i] + nums[j];
-                    sum += nums[k];
-                    long long frth = target - sum;
-                    // 4th element is in the set
-                    if (hashset.find(frth) != hashset.end())
+                    continue;
+                }
+                int k = j + 1;
+                int l = n - 1;
+                while (k <= l)
+                {
+                    long long sum = nums[i] + nums[j] + nums[k] + nums[l];
+                    if (sum == target)
                     {
-                        vector<int> vec = {nums[i], nums[j], nums[k], (int)frth};
-                        sort(vec.begin(), vec.end());
-                        ans.insert(vec);
+                        ans.push_back({nums[i], nums[j], nums[k], nums[l]});
+                        k++;
+                        l--;
+
+                        // skip the duplicates:
+                        while (k < l && nums[k] == nums[k - 1])
+                            k++;
+                        while (k < l && nums[l] == nums[l + 1])
+                            l--;
                     }
-                    hashset.insert(nums[k]);
+                    else if (sum < target)
+                    {
+                        k++;
+                    }
+                    else
+                    {
+                        l--;
+                    }
                 }
             }
         }
-        vector<vector<int>> res(ans.begin(), ans.end());
-        return res;
+        return ans;
     }
 };
 int main()

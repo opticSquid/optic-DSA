@@ -7,17 +7,15 @@ public:
     {
         int n = nums.size();
         int ctr = 0;
+        int xorr = 0;
+        map<int, int> mapp;
+        mapp[xorr]++;
         for (int i = 0; i < n; i++)
         {
-            int xorr = 0;
-            for (int j = i; j < n; j++)
-            {
-                xorr ^= nums[j];
-                if (xorr == k)
-                {
-                    ctr++;
-                }
-            }
+            xorr ^= nums[i];
+            int x = xorr ^ k;
+            ctr += mapp[x];
+            mapp[xorr]++;
         }
         return ctr;
     }

@@ -32,7 +32,7 @@ public:
         Node *head = prevNode;
         for (int i = 1; i < arr.size(); i++)
         {
-            Node *node = new Node(arr[1]);
+            Node *node = new Node(arr[i]);
             node->prev = prevNode;
             prevNode->next = node;
             prevNode = node;

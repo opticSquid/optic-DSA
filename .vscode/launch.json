@@ -5,13 +5,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "java",
-      "name": "Solution",
-      "request": "launch",
-      "mainClass": "Solution",
-      "projectName": "DSA_c815e657"
-    },
-    {
       "name": "(gdb) Launch",
       "type": "cppdbg",
       "request": "launch",

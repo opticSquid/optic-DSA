@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 template <typename T>
-class LinkedListStack
+class DoubleLinkedListStack
 {
 private:
     class Node
@@ -26,12 +26,12 @@ private:
     Node *current;
 
 public:
-    LinkedListStack()
+    DoublyLinkedListStack()
     {
         head = new Node();
         current = head;
     }
-    ~LinkedListStack()
+    ~DoublyLinkedListStack()
     {
         while (!isEmpty())
         {
@@ -71,8 +71,64 @@ public:
         return current == head;
     }
 };
+template <typename A>
+class SingleLinkedListStack
+{
+private:
+    struct Node
+    {
+        A val;
+        Node *next;
+        Node(A x) : val(x), next(nullptr) {}
+    };
+    Node *current;
+
+public:
+    SingleLinkedListStack()
+    {
+        current = nullptr;
+    }
+    ~SingleLinkedListStack()
+    {
+        while (!isEmpty())
+        {
+            pop();
+        }
+        delete current;
+    }
+    void push(A x)
+    {
+        Node *node = new Node(x);
+        node->next = current;
+        current = node;
+    }
+
+    A pop()
+    {
+        if (isEmpty())
+            throw std::runtime_error("Stack underflow");
+        Node *node = current;
+        Node *temp = node;
+        current = current->next;
+        A val = temp->val;
+        delete temp;
+        return val;
+    }
+
+    A top()
+    {
+        if (isEmpty())
+            throw std::runtime_error("Stack is empty");
+        return current->val;
+    }
+
+    bool isEmpty()
+    {
+        return current = nullptr;
+    }
+};
 int main()
 {
-    LinkedListStack<int> obj;
+    SingleLinkedListStack<int> obj;
     return 0;
 }

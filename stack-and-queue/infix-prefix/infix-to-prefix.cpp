@@ -26,10 +26,21 @@ private:
     }
 
 public:
-    string infixToPostfix(string s)
+    string infixToPrefix(string s)
     {
+        reverse(s.begin(), s.end());
         for (char c : s)
         {
+            // important
+            if (c == '(')
+            {
+                c = ')';
+            }
+            if (c == ')')
+            {
+                c = '(';
+            }
+            // main part
             if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
             {
                 res += c;
@@ -40,7 +51,7 @@ public:
             }
             else if (c == ')')
             {
-                while (st.top() != '(')
+                while (!st.empty() && st.top() != '(')
                 {
                     res += st.top();
                     st.pop();
@@ -49,14 +60,31 @@ public:
             }
             else
             {
-                while (!st.empty() && prec(c) <= prec(st.top()))
+                if (c == '^')
                 {
-                    res += st.top();
-                    st.pop();
+                    while (!st.empty() && prec(c) <= prec(st.top()))
+                    {
+                        res += st.top();
+                        st.pop();
+                    }
+                }
+                else
+                {
+                    while (!st.empty() && prec(c) < prec(st.top()))
+                    {
+                        res += st.top();
+                        st.pop();
+                    }
                 }
                 st.push(c);
             }
         }
+        while (!st.empty())
+        {
+            res += st.top();
+            st.pop();
+        }
+        reverse(res.begin(), res.end());
         return res;
     }
 };

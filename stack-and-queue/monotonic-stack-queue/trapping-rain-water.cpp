@@ -11,7 +11,7 @@ public:
         {
             if (height[left] <= height[right])
             {
-                if (height[left] >= height[maxLeft])
+                if (height[left] >= maxLeft)
                 {
                     maxLeft = height[left];
                 }
@@ -23,7 +23,7 @@ public:
             }
             else
             {
-                if (height[right] >= height[maxRight])
+                if (height[right] >= maxRight)
                 {
                     maxRight = height[right];
                 }

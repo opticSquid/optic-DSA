@@ -93,7 +93,7 @@ private:
         {
             int ni = nsi[i];
             int pi = psei[i];
-            total = (total + ((ni - i) * (i - pi) * 1ll * arr[i]));
+            total += 1LL * (ni - i) * (i - pi) * arr[i];
         }
         return total;
     }
@@ -108,7 +108,7 @@ private:
         {
             int ni = nli[i];
             int pi = plei[i];
-            total = total + ((ni - i) * (i - pi) * 1ll * arr[i]);
+            total += 1LL * (ni - i) * (i - pi) * arr[i];
         }
         return total;
     }

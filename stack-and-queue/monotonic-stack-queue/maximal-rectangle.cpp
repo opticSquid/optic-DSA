@@ -8,16 +8,26 @@ private:
     {
         int n = row.size();
         stack<int> st;
-        for (int i = 0; i <= n; ++i)
+        for (int i = 0; i < n; i++)
         {
             while (!st.empty() && row[st.top()] > row[i])
             {
-                int h = st.top();
+                int h = row[st.top()];
                 st.pop();
-                int w = st.empty() ? i : i - st.top() - 1;
-                largest_area = max(largest_area, h * w);
+                int nse = i;
+                int pse = st.empty() ? -1 : st.top();
+                largest_area = max(largest_area, h * (nse - pse - 1));
             }
             st.push(i);
+        }
+        // if items are still there in stack (these items will have either pse or nse missing)
+        while (!st.empty())
+        {
+            int h = row[st.top()];
+            st.pop();
+            int nse = n;
+            int pse = st.empty() ? -1 : st.top();
+            largest_area = max(largest_area, h * (nse - pse - 1));
         }
     }
 

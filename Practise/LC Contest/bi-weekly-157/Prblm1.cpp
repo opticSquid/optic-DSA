@@ -6,55 +6,49 @@ private:
     bool isPrime(long long num)
     {
         if (num <= 1)
-        {
             return false;
-        }
-        else if (num == 2)
-        {
+        if (num == 2)
             return true;
-        }
-        else if ((num & 1) == 0)
-        {
+        if ((num & 1) == 0)
             return false;
-        }
-        else
+        for (long long i = 3; i * i <= num; i += 2)
         {
-            for (long long i = 3l; i * i <= num; i += 2)
-            {
-                if (num % i == 0)
-                {
-                    return false;
-                }
-            }
+            if (num % i == 0)
+                return false;
         }
         return true;
     }
 
 public:
-    long long sumOfLargestPrimes(string s)
+    long long sumOfLargestPrimes(const string s)
     {
-        set<long long> st;
-        int lim = 3;
-        for (int i = s.size() - 1; i >= 0; i--)
+        unordered_set<long long> primes;
+        int n = s.size();
+
+        for (int i = 0; i < n; ++i)
         {
-            if (((s[i] - '0') & 1) == 0 && s[i] != '2')
+            if (s[i] == '0')
+                continue; // Skip substrings starting with 0
+            long long num = 0;
+            for (int j = i; j < min(i + 18, n); ++j)
             {
-                continue;
-            }
-            for (int j = 0; j <= i; j++)
-            {
-                long long x = stoll(s.substr(j, i - j + 1));
-                if (isPrime(x) && st.find(x) == st.end())
+                num = num * 10 + (s[j] - '0');
+                if ((num % 2 == 0 && num != 2) || primes.count(num))
+                    continue;
+                if (isPrime(num))
                 {
-                    st.insert(x);
+                    primes.insert(num);
                 }
             }
         }
-        long long sum = 0l;
-        for (auto it = st.rbegin(); it != st.rend() && lim > 0; ++it)
+
+        vector<long long> topPrimes(primes.begin(), primes.end());
+        sort(topPrimes.rbegin(), topPrimes.rend()); // Sort in descending order
+
+        long long sum = 0;
+        for (int i = 0; i < min(3, (int)topPrimes.size()); ++i)
         {
-            sum += *it;
-            lim--;
+            sum += topPrimes[i];
         }
         return sum;
     }

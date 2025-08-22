@@ -5,7 +5,7 @@ class Solution
 public:
     int rob(vector<int> &nums)
     {
-        int dp_i2 = 0, dp_i1 = nums[0], curr = 0;
+        int dp_i2 = 0, dp_i1 = nums[0], curr = nums[0];
         for (int i = 1; i < nums.size(); i++)
         {
             int pick = nums[i];

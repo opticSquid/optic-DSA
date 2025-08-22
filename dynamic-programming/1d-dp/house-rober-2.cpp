@@ -3,10 +3,18 @@ using namespace std;
 class Solution
 {
 private:
-    int rob_pvt(vector<int> &nums)
+    int rob_pvt(vector<int> &nums, int start, int end)
     {
-        int dp_i2 = 0, dp_i1 = nums[0], curr = nums[0];
-        for (int i = 1; i < nums.size(); i++)
+        if (start > end)
+        {
+            return 0;
+        }
+        if (start == end)
+        {
+            return nums[start];
+        }
+        int dp_i2 = 0, dp_i1 = nums[start], curr = nums[start];
+        for (int i = start + 1; i <= end; i++)
         {
             int pick = nums[i];
             if (i > 1)
@@ -24,16 +32,13 @@ private:
 public:
     int rob(vector<int> &nums)
     {
-        int l = nums[nums.size() - 1];
-        nums.pop_back();
-        int res_without_last = rob_pvt(nums);
-        // considering nums can be 1 element vector after 1st removal it becomes empty
-        if (!nums.empty())
-        {
-            nums.erase(nums.begin());
-        }
-        nums.push_back(l);
-        int res_without_first = rob_pvt(nums);
+        int n = nums.size();
+        if (n == 0)
+            return 0;
+        if (n == 1)
+            return nums[0];
+        int res_without_last = rob_pvt(nums, 0, n - 2);
+        int res_without_first = rob_pvt(nums, 1, n - 1);
         return max(res_without_last, res_without_first);
     }
 };

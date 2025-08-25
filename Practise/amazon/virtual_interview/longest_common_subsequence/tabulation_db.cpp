@@ -6,6 +6,7 @@ public:
     int longestCommonSubsequence(string text1, string text2)
     {
         int n = text1.size(), m = text2.size();
+        // index shifting to accomodate the index = -1 case
         vector<vector<int>> match(n + 1, vector<int>(m + 1, -1));
         for (int i = 0; i <= n; i++)
         {

@@ -15,7 +15,7 @@ private:
         }
         else if (mustPick)
         {
-            return max(0, dp[mustPick][i] = nums[i] + solve(nums, i + 1, true, dp));
+            return dp[mustPick][i] = max(0, nums[i] + solve(nums, i + 1, true, dp));
         }
         else
         {

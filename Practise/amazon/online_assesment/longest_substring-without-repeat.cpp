@@ -9,12 +9,12 @@ public:
         int l = 0, maxLen = 0;
         for (int i = 0; i < s.size(); i++)
         {
-            char r = s[i];
-            if (mp.find(r) != mp.end())
+            char ch = s[i];
+            if (mp.find(ch) != mp.end())
             {
-                l = max(l, mp[r] + 1);
+                l = max(l, mp[ch] + 1);
             }
-            mp[r] = i;
+            mp[ch] = i;
             maxLen = max(maxLen, i - l + 1);
         }
         return maxLen;

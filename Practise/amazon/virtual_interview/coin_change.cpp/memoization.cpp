@@ -30,7 +30,7 @@ private:
             taken = 1 + minimumElementsUtil(arr, ind, T - arr[ind], dp);
 
         // Store the minimum of 'notTaken' and 'taken' in the DP array and return it
-        return min(notTaken, taken);
+        return dp[ind][T] = min(notTaken, taken);
     }
 
 public:

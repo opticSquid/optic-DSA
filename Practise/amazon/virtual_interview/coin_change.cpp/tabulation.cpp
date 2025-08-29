@@ -54,15 +54,15 @@ public:
         }
         for (int i = 1; i < n; i++)
         {
-            for (int t = 0; t <= amount; t++)
+            for (int am = 0; am <= amount; am++)
             {
-                int ntk = dp[i - 1][t];
+                int ntk = dp[i - 1][am];
                 int tk = 1e9;
-                if (coins[i] <= t)
+                if (coins[i] <= am)
                 {
-                    tk = 1 + dp[i][t - coins[i]];
+                    tk = 1 + dp[i][am - coins[i]];
                 }
-                dp[i][t] = min(ntk, tk);
+                dp[i][am] = min(ntk, tk);
             }
         }
         int ans = dp[n - 1][amount];

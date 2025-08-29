@@ -25,6 +25,8 @@ public:
 };
 int main()
 {
+    vector<int> nums = {1, 2, 3};
     Solution obj;
+    obj.subsets(nums);
     return 0;
 }

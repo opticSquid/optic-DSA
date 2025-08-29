@@ -7,37 +7,28 @@ private:
     {
         if (i <= 1)
         {
-            if (i >= 0)
-            {
-                dp[i] = 1;
-                return dp[i];
-            }
-            else
-            {
-                return 1;
-            }
+            return 1;
         }
         else
         {
             int l, r;
-            if (dp[i - 1] == -1)
-            {
-                l = f(i - 1, dp);
-            }
-            else
+            if (dp[i - 1] != -1)
             {
                 l = dp[i - 1];
             }
-            if (dp[i - 2] == -1)
-            {
-                r = f(i - 2, dp);
-            }
             else
+            {
+                l = f(i - 1, dp);
+            }
+            if (dp[i - 2] != -1)
             {
                 r = dp[i - 2];
             }
-            dp[i] = l + r;
-            return dp[i];
+            else
+            {
+                r = f(i - 2, dp);
+            }
+            return dp[i] = l + r;
         }
     }
 

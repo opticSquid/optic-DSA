@@ -22,8 +22,7 @@ private:
         {
             int pick = nums[hNo] + f(hNo - 2, nums, dp);
             int notPick = f(hNo - 1, nums, dp);
-            dp[hNo] = max(pick, notPick);
-            return dp[hNo];
+            return dp[hNo] = max(pick, notPick);
         }
     }
 

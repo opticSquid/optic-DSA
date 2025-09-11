@@ -27,7 +27,7 @@ bool bfs(int src, int visited[], vector<int> adj[])
     }
     return false;
 }
-bool detectCycle(int V, vector<int> edges[])
+bool detectCycle(int V, vector<int> adj[])
 {
     int visited[V];
     memset(visited, 0, V * sizeof(int));
@@ -36,7 +36,7 @@ bool detectCycle(int V, vector<int> edges[])
         if (!visited[i])
         {
             // visited[i] = 1;
-            if (bfs(i, visited, edges))
+            if (bfs(i, visited, adj))
                 return true;
         }
     }
@@ -44,8 +44,8 @@ bool detectCycle(int V, vector<int> edges[])
 }
 int main()
 {
-    vector<int> edges[] = {{0, 1}, {1, 2}, {3, 4}};
+    vector<int> adj[] = {{0, 1}, {1, 2}, {3, 4}};
     int v = 4;
-    cout << "result: " << detectCycle(v, edges);
+    cout << "result: " << detectCycle(v, adj);
     return 0;
 }

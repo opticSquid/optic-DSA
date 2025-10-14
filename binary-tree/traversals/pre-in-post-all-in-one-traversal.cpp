@@ -15,9 +15,7 @@ public:
         st.push({root, 0});
         while (!st.empty())
         {
-            const auto it = st.top();
-            TreeNode *node = it.first;
-            int state = it.second;
+            const auto [node, state] = st.top();
             st.pop();
             switch (state)
             {

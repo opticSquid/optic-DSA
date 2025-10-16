@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#include "./shared/tree-node.hpp"
+#include "../shared/tree-node.hpp"
 using namespace std;
 class Solution
 {

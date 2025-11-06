@@ -8,18 +8,15 @@ private:
     vector<int> boundaryNodes;
     bool isLeaf(Node *node)
     {
-        return node->left == nullptr && node->right == nullptr;
+        return node != nullptr && node->left == nullptr && node->right == nullptr;
     }
 
     void addLeftBoundary(Node *node)
     {
         Node *curr = node->left;
-        while (curr != nullptr)
+        while (!isLeaf(curr))
         {
-            if (!isLeaf(curr))
-            {
-                boundaryNodes.push_back(curr->val);
-            }
+            boundaryNodes.push_back(curr->val);
             if (curr->left != nullptr)
             {
                 curr = curr->left;
@@ -49,14 +46,11 @@ private:
 
     void addRightBoundary(Node *node)
     {
-        vector<int>::iterator prevLast = boundaryNodes.end();
+        vector<int>::iterator prevLast = boundaryNodes.end() - 1;
         Node *curr = node->right;
-        while (curr)
+        while (!isLeaf(curr))
         {
-            if (!isLeaf(curr))
-            {
-                boundaryNodes.push_back(curr->val);
-            }
+            boundaryNodes.push_back(curr->val);
             if (curr->right != nullptr)
             {
                 curr = curr->right;
@@ -66,7 +60,7 @@ private:
                 curr = curr->left;
             }
         }
-        vector<int>::iterator currentLast = boundaryNodes.end();
+        vector<int>::iterator currentLast = boundaryNodes.end() - 1;
         reverse(prevLast + 1, currentLast);
     }
 
@@ -91,12 +85,9 @@ void deleteTree(Node *);
 int main()
 {
     Node *root = new Node(1);
-    root->left = new Node(2);
-    root->right = new Node(3);
-    root->left->left = new Node(4);
-    root->left->right = new Node(5);
-    root->right->left = new Node(6);
-    root->right->right = new Node(7);
+    root->right = new Node(2);
+    root->right->left = new Node(3);
+    root->right->right = new Node(4);
     Solution obj;
     for (int i : obj.boundaryTraversal(root))
     {
@@ -109,6 +100,10 @@ int main()
 
 void deleteTree(Node *node)
 {
+    if (node == nullptr)
+    {
+        return;
+    }
     deleteTree(node->left);
     deleteTree(node->right);
     delete node;

@@ -14,16 +14,20 @@ private:
     void addLeftBoundary(Node *node)
     {
         Node *curr = node->left;
-        while (!isLeaf(curr))
+        while (!isLeaf(curr) && curr != nullptr)
         {
             boundaryNodes.push_back(curr->val);
             if (curr->left != nullptr)
             {
                 curr = curr->left;
             }
-            if (curr->left == nullptr && curr->right != nullptr)
+            else if (curr->left == nullptr && curr->right != nullptr)
             {
                 curr = curr->right;
+            }
+            else
+            {
+                break;
             }
         }
     }
@@ -46,22 +50,26 @@ private:
 
     void addRightBoundary(Node *node)
     {
-        vector<int>::iterator prevLast = boundaryNodes.end() - 1;
+        int prevLastIdx = boundaryNodes.size();
         Node *curr = node->right;
-        while (!isLeaf(curr))
+        while (!isLeaf(curr) && curr != nullptr)
         {
             boundaryNodes.push_back(curr->val);
             if (curr->right != nullptr)
             {
                 curr = curr->right;
             }
-            if (curr->right == nullptr && curr->left != nullptr)
+            else if (curr->right == nullptr && curr->left != nullptr)
             {
                 curr = curr->left;
             }
+            else
+            {
+                break;
+            }
         }
-        vector<int>::iterator currentLast = boundaryNodes.end() - 1;
-        reverse(prevLast + 1, currentLast);
+        vector<int>::iterator currentLast = boundaryNodes.end();
+        reverse(boundaryNodes.begin() + prevLastIdx, currentLast);
     }
 
 public:
@@ -85,9 +93,10 @@ void deleteTree(Node *);
 int main()
 {
     Node *root = new Node(1);
-    root->right = new Node(2);
-    root->right->left = new Node(3);
-    root->right->right = new Node(4);
+    root->left = new Node(2);
+    root->right = new Node(3);
+    root->right->left = new Node(4);
+    root->right->left->left = new Node(5);
     Solution obj;
     for (int i : obj.boundaryTraversal(root))
     {

@@ -4,16 +4,16 @@ using namespace std;
 class Solution
 {
 private:
-    queue<int> q;
+    vector<int> ans;
     void traverse(TreeNode *node, int level)
     {
         if (node == nullptr)
         {
             return;
         }
-        if (level == q.size())
+        if (level == ans.size())
         {
-            q.push(node->val);
+            ans.push_back(node->val);
         }
         traverse(node->right, level + 1);
         traverse(node->left, level + 1);
@@ -27,12 +27,6 @@ public:
             return {};
         }
         traverse(root, 0);
-        vector<int> ans;
-        while (!q.empty())
-        {
-            ans.push_back(q.front());
-            q.pop();
-        }
         return ans;
     }
 };

@@ -5,36 +5,12 @@ class Solution
 public:
     int minLengthAfterRemovals(string s)
     {
-        int n = s.size();
-        int i = 0;
-        int ans = INT_MAX;
-        while (i < n)
+        unordered_map<char, int> mp;
+        for (const char &c : s)
         {
-            int l = i, r = i;
-            int a_cnt = 0, b_cnt = 0;
-            while (r < n)
-            {
-                switch (s[r])
-                {
-                case 'a':
-                    a_cnt++;
-                    break;
-                case 'b':
-                    b_cnt++;
-                    break;
-                default:
-                    break;
-                }
-                if (a_cnt == b_cnt)
-                {
-                    l = r + 1;
-                }
-                r++;
-            }
-            i++;
-            ans = min(ans, r - l);
+            mp[c]++;
         }
-        return ans;
+        return abs(mp['a'] - mp['b']);
     }
 };
 int main()

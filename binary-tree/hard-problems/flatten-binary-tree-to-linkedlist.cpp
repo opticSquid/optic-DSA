@@ -8,8 +8,6 @@ public:
     {
         if (root == nullptr)
             return;
-        TreeNode *dummyHead = new TreeNode(-1);
-        TreeNode *iter = dummyHead;
         stack<TreeNode *> s;
         s.push(root);
         while (!s.empty())
@@ -19,18 +17,17 @@ public:
             if (front->right != nullptr)
             {
                 s.push(front->right);
-                front->right = nullptr;
             }
             if (front->left != nullptr)
             {
                 s.push(front->left);
-                front->left = nullptr;
             }
-            iter->right = front;
-            iter = front;
+            if (!s.empty())
+            {
+                front->right = s.top();
+            }
+            front->left = nullptr;
         }
-        root = dummyHead->right;
-        delete dummyHead;
     }
 };
 int main()

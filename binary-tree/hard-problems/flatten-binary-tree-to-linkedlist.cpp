@@ -29,6 +29,27 @@ public:
             front->left = nullptr;
         }
     }
+    void flatten_O1(TreeNode *root)
+    {
+        if (root == nullptr)
+            return;
+        TreeNode *current = root;
+        while (current != nullptr)
+        {
+            if (current->left != nullptr)
+            {
+                TreeNode *rightMostNodeInLeftSubTree = current->left;
+                while (rightMostNodeInLeftSubTree->right != nullptr)
+                {
+                    rightMostNodeInLeftSubTree = rightMostNodeInLeftSubTree->right;
+                }
+                rightMostNodeInLeftSubTree->right = current->right;
+                current->right = current->left;
+                current->left = nullptr;
+            }
+            current = current->right;
+        }
+    }
 };
 int main()
 {

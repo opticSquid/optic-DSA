@@ -4,24 +4,18 @@ using namespace std;
 class Solution
 {
 public:
-    pair<int, int> minMaxInBST(TreeNode *root, int val)
+    pair<int, int> minMaxInBST(TreeNode *root)
     {
-        if (root == nullptr)
-        {
+        if (!root)
             return {};
-        }
-        TreeNode *node = root, *mn = root, *mx = root;
-        while (mn->left != nullptr || mx->right != nullptr)
-        {
-            if (mn->left != nullptr)
-            {
-                mn = mn->left;
-            }
-            if (mx->right != nullptr)
-            {
-                mx = mx->right;
-            }
-        }
+
+        TreeNode *mn = root, *mx = root;
+
+        while (mn && mn->left)
+            mn = mn->left; // Find Min
+        while (mx && mx->right)
+            mx = mx->right; // Find Max
+
         return {mn->val, mx->val};
     }
 };

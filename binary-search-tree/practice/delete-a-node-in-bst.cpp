@@ -3,72 +3,64 @@
 using namespace std;
 class Solution
 {
-private:
-    TreeNode *findLastRight(TreeNode *root)
-    {
-        while (root->right != nullptr)
-        {
-            root = root->right;
-        }
-        return root;
-    }
-    TreeNode *helper(TreeNode *root)
-    {
-        if (root->left == nullptr)
-        {
-            return root->right;
-        }
-        else if (root->right == nullptr)
-        {
-            return root->left;
-        }
-        TreeNode *rightChild = root->right;
-        TreeNode *lastRight = findLastRight(root->left);
-        lastRight->right = rightChild;
-        return root->left;
-    }
-
 public:
     TreeNode *deleteNode(TreeNode *root, int key)
     {
-        if (root == nullptr)
+        TreeNode *curr = root, *parent = nullptr;
+        while (curr != nullptr && curr->val != key)
         {
-            return nullptr;
-        }
-        TreeNode *dummy = root;
-        if (dummy->val == key)
-        {
-            return helper(dummy);
-        }
-        while (dummy != nullptr)
-        {
-            if (dummy->val > key)
+            parent = curr;
+            if (key < curr->val)
             {
-                if (dummy->left != nullptr && dummy->left->val == key)
-                {
-                    TreeNode *node = dummy->left;
-                    dummy->left = helper(dummy->left);
-                    delete node;
-                    break;
-                }
-                else
-                {
-                    dummy = dummy->left;
-                }
+                curr = curr->left;
             }
             else
             {
-                if (dummy->right != nullptr && dummy->right->val == key)
+                curr = curr->right;
+            }
+        }
+        if (curr != nullptr)
+        {
+            // Node has 0 or 1 child
+            if (curr->left == nullptr || curr->right == nullptr)
+            {
+                TreeNode *child = curr->left != nullptr ? curr->left : curr->right;
+                if (parent == nullptr)
                 {
-                    TreeNode *node = dummy->right;
-                    dummy->right = helper(dummy->right);
-                    delete node;
-                    break;
+                    return child; // key is in root only
+                }
+                if (parent->left == curr)
+                {
+                    parent->left = child;
                 }
                 else
                 {
-                    dummy = dummy->right;
+                    parent->right = child;
                 }
+                delete curr;
+            }
+            else
+            {
+                // Find the In-order Successor (leftmost in right subtree)
+                TreeNode *successorParent = curr;
+                TreeNode *successor = curr->right;
+                while (successor->left != nullptr)
+                {
+                    successorParent = successor;
+                    successor = successor->left;
+                }
+                // Replace current value with successor's value
+                curr->val = successor->val;
+                // Delete the successor node
+                if (successorParent->left == successor)
+                {
+                    successorParent->left = successor->right;
+                }
+                else
+                {
+                    successorParent->right = successor->right;
+                }
+                delete successor;
             }
         }
         return root;

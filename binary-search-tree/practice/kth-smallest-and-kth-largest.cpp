@@ -4,64 +4,44 @@ using namespace std;
 class Solution
 {
 private:
-    int inOrderTraversal(TreeNode *root, const int k)
+    void inOrderTraversal(TreeNode *node, int &k, int &res)
     {
-        int ctr = 0;
-        TreeNode *currNode = root;
-        stack<TreeNode *> st;
-        int kSmall = INT_MAX;
-        while (currNode != nullptr || !st.empty())
+        if (node != nullptr)
         {
-            while (currNode != nullptr)
+            inOrderTraversal(node->left, k, res);
+            if (--k == 0)
             {
-                st.push(currNode);
-                currNode = currNode->left;
+                res = node->val;
+                return;
             }
-            currNode = st.top();
-            st.pop();
-            ctr++;
-            if (ctr == k)
-            {
-                kSmall = currNode->val;
-                break;
-            }
-            currNode = currNode->right;
+            inOrderTraversal(node->right, k, res);
         }
-        return kSmall;
     }
 
-    int reverseInOrderTraversal(TreeNode *root, const int k)
+    void reverseInOrderTraversal(TreeNode *node, int &k, int &res)
     {
-        int ctr = 0;
-        TreeNode *currNode = root;
-        stack<TreeNode *> st;
-        int kLarge = INT_MIN;
-        while (currNode != nullptr || !st.empty())
+        if (node != nullptr)
         {
-            while (currNode != nullptr)
+            reverseInOrderTraversal(node->right, k, res);
+            if (--k == 0)
             {
-                st.push(currNode);
-                currNode = currNode->right;
+                res = node->val;
+                return;
             }
-            currNode = st.top();
-            st.pop();
-            ctr++;
-            if (ctr == k)
-            {
-                kLarge = currNode->val;
-                break;
-            }
-            currNode = currNode->left;
+            reverseInOrderTraversal(node->left, k, res);
         }
-        return kLarge;
     }
 
 public:
-    int kthSmallest(TreeNode *root, int k)
+    vector<int> kLargeSmallest(TreeNode *root, int k)
     {
         if (root == nullptr)
-            return -1;
-        return inOrderTraversal(root, k);
+            return {-1, -1};
+        int k1 = k, k2 = k;
+        int res1 = -1, res2 = -1;
+        inOrderTraversal(root, k1, res1);
+        reverseInOrderTraversal(root, k2, res2);
+        return {res1, res2};
     }
 };
 int main()
@@ -71,6 +51,7 @@ int main()
     root->left->right = new TreeNode(2);
     root->right = new TreeNode(4);
     Solution obj;
-    cout << "K Small: " << obj.kthSmallest(root, 1) << endl;
+    vector<int> res = obj.kLargeSmallest(root, 1);
+    cout << "K Small: " << res[0] << ", K Large: " << res[1] << endl;
     return 0;
 }

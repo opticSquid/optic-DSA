@@ -2,27 +2,6 @@
 using namespace std;
 class Solution
 {
-private:
-    int minEnergyJump(int i, vector<int> &heights, vector<int> &dp)
-    {
-        if (i == 0)
-        {
-            return 0;
-        }
-        if (dp[i] != -1)
-        {
-            return dp[i];
-        }
-        int le = minEnergyJump(i - 1, heights, dp) + abs(heights[i] - heights[i - 1]);
-        int re = INT_MAX;
-        if (i > 1)
-        {
-            re = minEnergyJump(i - 2, heights, dp) + abs(heights[i] - heights[i - 2]);
-        }
-
-        return dp[i] = min(le, re);
-    }
-
 public:
     int minEneryRequired(vector<int> &heights)
     {
@@ -31,8 +10,20 @@ public:
             return 0;
         }
         int n = heights.size();
-        vector<int> dp(n, -1);
-        return this->minEnergyJump(n - 1, heights, dp);
+        vector<int> dp(n, INT_MAX);
+        dp[0] = 0;
+        int le, re;
+        for (int i = 1; i < n; i++)
+        {
+            le = dp[i - 1] + abs(heights[i] - heights[i - 1]);
+            re = INT_MAX;
+            if (i > 1)
+            {
+                re = dp[i - 2] + abs(heights[i] - heights[i - 2]);
+            }
+            dp[i] = min(le, re);
+        }
+        return dp[n - 1];
     }
 };
 int main()

@@ -16,14 +16,18 @@ public:
         {
             return arr[0];
         }
-        vector<int> dp(n, -1);
-        dp[0] = arr[0];
-        dp[1] = max(arr[0], arr[1]);
-        for (int i = 2; i < n; i++)
+        int prevprev = 0;
+        int prev = arr[0];
+        int t, nt, cur;
+        for (int i = 1; i < n; i++)
         {
-            dp[i] = max(arr[i] + dp[i - 2], dp[i - 1]);
+            t = arr[i] + prevprev;
+            nt = prev;
+            cur = max(t, nt);
+            prevprev = prev;
+            prev = cur;
         }
-        return dp[n - 1];
+        return prev;
     }
 };
 int main()

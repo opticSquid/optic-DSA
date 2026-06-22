@@ -1,15 +1,35 @@
 {
-  // debug configurations
-  "version": "2.0.0",
   "configurations": [
     {
+      "name": "clang++ - Build and debug active file",
       "type": "lldb",
       "request": "launch",
-      "name": "Run C++ (clang + LLDB)",
       "program": "${fileDirname}/${fileBasenameNoExtension}",
       "args": [],
-      "cwd": "${workspaceFolder}",
-      "preLaunchTask": "C/C++: clang++ build active file"
+      "cwd": "${fileDirname}",
+      "preLaunchTask": "clang++: build active file"
+    },
+    {
+      "name": "g++ - Build and debug active file",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${fileDirname}/${fileBasenameNoExtension}",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${fileDirname}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "miDebuggerPath": "/usr/bin/gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "g++: build active file"
     }
-  ]
+  ],
+  "version": "0.2.0"
 }

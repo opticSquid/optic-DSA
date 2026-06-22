@@ -3,32 +3,27 @@
 using namespace std;
 class Solution
 {
-private:
-    int solve(int i, vector<int> &arr, vector<int> &dp)
-    {
-        if (i < 0)
-        {
-            return 0;
-        }
-        if (i == 0)
-        {
-            return arr[0];
-        }
-        if (dp[i] != -1)
-        {
-            return dp[i];
-        }
-        int t = arr[i] + solve(i - 2, arr, dp);
-        int nt = solve(i - 1, arr, dp);
-        return dp[i] = max(t, nt);
-    }
 
 public:
     int maximumNonAdjacentSum(vector<int> &arr)
     {
         int n = arr.size();
+        if (n == 0)
+        {
+            return 0;
+        }
+        if (n == 1)
+        {
+            return arr[0];
+        }
         vector<int> dp(n, -1);
-        return solve(n - 1, arr, dp);
+        dp[0] = arr[0];
+        dp[1] = max(arr[0], arr[1]);
+        for (int i = 2; i < n; i++)
+        {
+            dp[i] = max(arr[i] + dp[i - 2], dp[i - 1]);
+        }
+        return dp[n - 1];
     }
 };
 int main()

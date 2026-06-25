@@ -18,7 +18,7 @@ private:
                     maxi = max(maxi, matrix[0][task]);
                 }
             }
-            return maxi;
+            return dp[day][last] = maxi;
         }
         // memoization check
         if (dp[day][last] != -1)

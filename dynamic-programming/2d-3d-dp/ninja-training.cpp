@@ -47,39 +47,42 @@ public:
         {
             return 0;
         }
-        vector<vector<int>> dp(n, vector<int>(4, 0));
+        vector<int> prevDay(4, 0);
         // 0th index values - day = 0
         // for all possible task values
         for (int i = 0; i < 4; i++)
         {
-            dp[0][i] = 0;
             // for all valid task values
             for (int j = 0; j < 3; j++)
             {
                 // if the current task not equal to last task
                 if (j != i)
                 {
-                    dp[0][i] = max(dp[0][i], matrix[0][j]);
+                    prevDay[i] = max(prevDay[i], matrix[0][j]);
                 }
             }
         }
+        vector<int> curDay(4);
         // for rest
         for (int day = 1; day < n; day++)
         {
+            fill(curDay.begin(), curDay.end(), 0);
             for (int last = 0; last < 4; last++)
             {
-                dp[day][last] = 0;
                 for (int task = 0; task < 3; task++)
                 {
                     if (task != last)
                     {
-                        int p = matrix[day][task] + dp[day - 1][task];
-                        dp[day][last] = max(dp[day][last], p);
+                        int p = matrix[day][task] + prevDay[task];
+                        curDay[last] = max(curDay[last], p);
                     }
                 }
             }
+            // Instantly swaps pointers. prevDay now references the curDay data.
+            // curDay gets the old prevDay memory, ready to be overwritten.
+            swap(prevDay, curDay);
         }
-        return dp[n - 1][3];
+        return prevDay[3];
     }
 };
 int main()

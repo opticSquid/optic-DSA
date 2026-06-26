@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <cassert>
 using namespace std;
 class Solution
 {
@@ -46,8 +47,39 @@ public:
         {
             return 0;
         }
-        vector<vector<int>> dp(n, vector<int>(4, -1));
-        return practice(n - 1, 3, matrix, dp);
+        vector<vector<int>> dp(n, vector<int>(4, 0));
+        // 0th index values - day = 0
+        // for all possible task values
+        for (int i = 0; i < 4; i++)
+        {
+            dp[0][i] = 0;
+            // for all valid task values
+            for (int j = 0; j < 3; j++)
+            {
+                // if the current task not equal to last task
+                if (j != i)
+                {
+                    dp[0][i] = max(dp[0][i], matrix[0][j]);
+                }
+            }
+        }
+        // for rest
+        for (int day = 1; day < n; day++)
+        {
+            for (int last = 0; last < 4; last++)
+            {
+                dp[day][last] = 0;
+                for (int task = 0; task < 3; task++)
+                {
+                    if (task != last)
+                    {
+                        int p = matrix[day][task] + dp[day - 1][task];
+                        dp[day][last] = max(dp[day][last], p);
+                    }
+                }
+            }
+        }
+        return dp[n - 1][3];
     }
 };
 int main()
@@ -57,6 +89,11 @@ int main()
                                {20, 50, 80},
                                {30, 60, 90}};
     Solution obj;
-    cout << "max possible merit points: " << obj.ninjaTraining(matrix) << endl;
+    assert(obj.ninjaTraining(matrix) == 210);
+    matrix = {{70, 40, 10},
+              {180, 20, 5},
+              {200, 60, 30}};
+    assert(obj.ninjaTraining(matrix) == 290);
+    cout << "All tests passed" << endl;
     return 0;
 }

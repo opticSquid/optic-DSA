@@ -3,34 +3,24 @@
 using namespace std;
 class Solution
 {
+
 public:
     int uniquePaths(int m, int n)
     {
-        vector<int> prev(n, 0);
-        vector<int> cur(n);
-        int left, up;
-        for (int i = 0; i < m; i++)
+        // basically it is solving
+        // (m+n-2)!/((m-1)!*(n-1)!)
+        int ans = 1;
+        for (int i = m + n - 2, j = 1; i >= max(m, n); i--, j++)
         {
-            fill(cur.begin(), cur.end(), 0);
-            for (int j = 0; j < n; j++)
-            {
-                if (i == 0 && j == 0)
-                {
-                    cur[j] = 1;
-                    continue;
-                }
-                up = i - 1 >= 0 ? prev[j] : 0;
-                left = j - 1 >= 0 ? cur[j - 1] : 0;
-                cur[j] = up + left;
-            }
-            swap(prev, cur);
+            ans = (ans * i) / j;
         }
-        return prev[n - 1];
+        return ans;
     }
 };
 int main()
 {
     Solution obj;
+    obj.uniquePaths(1, 2);
     assert(obj.uniquePaths(3, 2) == 3);
     assert(obj.uniquePaths(2, 4) == 4);
     return 0;

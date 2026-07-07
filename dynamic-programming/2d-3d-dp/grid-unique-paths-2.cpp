@@ -3,30 +3,6 @@
 using namespace std;
 class Solution
 {
-private:
-    int traverse(int i, int j, vector<vector<int>> &grid, vector<vector<int>> &dp)
-    {
-        if (i < 0 || j < 0)
-        {
-            return 0;
-        }
-        if (grid[i][j] == 1)
-        {
-            return dp[i][j] = 0;
-        }
-        if (dp[i][j] != -1)
-        {
-            return dp[i][j];
-        }
-        if (i == 0 && j == 0)
-        {
-            return dp[i][j] = 1;
-        }
-        int top = traverse(i - 1, j, grid, dp);
-        int left = traverse(i, j - 1, grid, dp);
-        return dp[i][j] = top + left;
-    }
-
 public:
     int uniquePathsWithObstacles(vector<vector<int>> &obstacleGrid)
     {
@@ -35,8 +11,26 @@ public:
             return 0;
         }
         int m = obstacleGrid.size(), n = obstacleGrid[0].size();
-        vector<vector<int>> dp(m, vector<int>(n, -1));
-        return traverse(m - 1, n - 1, obstacleGrid, dp);
+        vector<vector<int>> dp(m, vector<int>(n, 0));
+        int top, left;
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                if (obstacleGrid[i][j] == 0)
+                {
+                    if (i == 0 && j == 0)
+                    {
+                        dp[0][0] = 1;
+                        continue;
+                    }
+                    top = i - 1 >= 0 ? dp[i - 1][j] : 0;
+                    left = j - 1 >= 0 ? dp[i][j - 1] : 0;
+                    dp[i][j] = top + left;
+                }
+            }
+        }
+        return dp[m - 1][n - 1];
     }
 };
 int main()

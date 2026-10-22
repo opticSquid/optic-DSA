@@ -104,6 +104,7 @@
       "queue": "cpp",
       "stack": "cpp",
       "text_encoding": "cpp"
-    }
+    },
+    "chat.disableAIFeatures": true
   }
 }
